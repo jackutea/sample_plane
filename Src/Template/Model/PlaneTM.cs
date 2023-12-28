@@ -6,6 +6,7 @@ public class PlaneTM {
     public int typeID;
 
     public float moveSpeed;
+    public MoveType moveType;
 
     public int hp;
 

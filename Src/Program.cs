@@ -1,4 +1,5 @@
-﻿using System.Numerics;
+﻿using System;
+using System.Numerics;
 using System.Collections.Generic;
 using Raylib_cs;
 
@@ -13,7 +14,7 @@ public static class Program {
         LoginController.Init(ctx);
         GameController.Init(ctx);
 
-        Raylib.InitWindow(640, 900, "Plane");
+        Raylib.InitWindow(ctx.windowWidth, ctx.windowHeight, "Plane");
         Raylib.SetTargetFPS(ctx.fps);
 
         // ==== Enter ====
@@ -23,15 +24,24 @@ public static class Program {
 
             Raylib.BeginDrawing();
             Raylib.ClearBackground(Color.WHITE);
+            
+            float dt = Raylib.GetFrameTime();
+
+            ref Camera2D cam = ref ctx.cameraEntity.cam;
+
+            // ==== Input ====
+            InfraController.PreTickInput(ctx, dt);
 
             // ==== Tick ====
-            float dt = Raylib.GetFrameTime();
+            InfraController.Tick(ctx, dt);
             LoginController.Tick(ctx, dt);
             GameController.Tick(ctx, dt);
 
             // ==== Draw World ====
+            Raylib.BeginMode2D(cam);
             LoginController.Draw(ctx);
             GameController.Draw(ctx);
+            Raylib.EndMode2D();
 
             // ==== Draw UI (根据窗口) ====
             LoginController.DrawUI(ctx);
