@@ -5,6 +5,8 @@ public class Panel_Login {
 
     public GUIButton btn_start;
 
+    public bool isOpen;
+
     public Panel_Login() {}
 
     public void Ctor() {
@@ -12,6 +14,14 @@ public class Panel_Login {
         btn_start.pos = new Vector2(0, 0);
         btn_start.size = new Vector2(160, 30);
         btn_start.color = Color.BLACK;
+    }
+
+    public void Init() {
+        isOpen = true;
+    }
+
+    public void Close() {
+        isOpen = false;
     }
 
     public bool IsClickStart() {

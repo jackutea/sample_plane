@@ -5,16 +5,22 @@ public static class UIApp {
 
     #region Panel: Login
     public static void Login_Open(UIContext ctx) {
-        ctx.panel_Login = new Panel_Login();
-        ctx.panel_Login.Ctor(); // Constructure
+        ref Panel_Login panel = ref ctx.panel_Login;
+        if (panel == null) {
+            panel = new Panel_Login();
+            panel.Ctor(); // Constructure
+        }
+        panel.Init();
     }
 
     public static void Login_Close(UIContext ctx) {
-        ctx.panel_Login = null;
+        if (ctx.panel_Login != null) {
+            ctx.panel_Login.Close();
+        }
     }
 
     public static bool Login_IsClickStart(UIContext ctx) {
-        if (ctx.panel_Login == null) {
+        if (ctx.panel_Login == null || !ctx.panel_Login.isOpen) {
             return false;
         }
         if (ctx.panel_Login.IsClickStart()) {
@@ -24,7 +30,7 @@ public static class UIApp {
     }
 
     public static void Login_Draw(UIContext ctx) {
-        if (ctx.panel_Login != null) {
+        if (ctx.panel_Login != null && ctx.panel_Login.isOpen) {
             ctx.panel_Login.Draw();
         }
     }
